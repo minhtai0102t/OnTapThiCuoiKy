@@ -1,0 +1,154 @@
+class TieuThuDien{
+  private string matt;
+  private string ky;
+  private string madk;
+  private int sodien;
+  private KhachHang m_khachhang;
+
+  public string Matt{
+    get{return this.matt;}
+    set{this.matt = value;} 
+  }
+  public string Ky{
+    get{return this.ky;}
+    set{this.ky = value;}
+  }
+  
+  public double thanhtien(){
+    double tien50 = sodien * 1800;
+    double tien150 = tien50 + (sodien-50)*2300;
+    double tienConLai = tien50 + tien150 + (sodien - 150) * 3200;
+    if(sodien <=50) return tien50;
+    else if(sodien <= 150) return tien150;
+    else return tienConLai; 
+  }
+
+}
+
+================================================================================================
+ public enum KieuHinh { HinhHoc,TamGiac,TamGiacCan, HinhChuNhat,HinhVuong}
+        abstract class HinhHoc
+        {
+            public abstract double chuVi();
+            public abstract double dienTich();
+            public virtual KieuHinh kieuDoiTuong()
+            {
+                return KieuHinh.HinhHoc;
+            }        
+        }
+
+        class TamGiac : HinhHoc
+        {
+            protected double a;
+            protected double b;
+            protected double c;
+
+            public double A { get => a; set => a = value; }
+            public double B { get => b; set => b = value; }
+            public double C { get => c; set => c = value; }
+
+            public TamGiac()
+            {
+                this.a = this.b = this.c = 0;
+            }
+            public TamGiac(double a, double b, double c)
+            {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+            }
+
+            public override double chuVi()
+            {
+                return A + B + C;
+            }
+            public override double dienTich()
+            {
+                double p = chuVi() / 2;
+                return Math.Sqrt(p*(p-A)*(p-B)*(p-C ));
+            }
+            public override KieuHinh kieuDoiTuong()
+            {
+                return KieuHinh.TamGiac;
+            }
+        }
+
+        class HinhChuNhat : HinhHoc
+        {
+            protected double chieuDai;
+            protected double chieuRong;
+
+            public double ChieuDai
+            {
+                get { return this.chieuDai; }
+                set { this.chieuDai = value; }
+            }
+
+            public double ChieuRong
+            {
+                get { return this.chieuRong; }
+                set { this.chieuRong = value; }
+            }
+
+            public HinhChuNhat(double dai, double rong)
+            {
+                this.chieuDai = dai;
+                this.chieuRong = rong;
+            }
+            public HinhChuNhat()
+            {
+                this.chieuDai = this.chieuRong = 0;
+            }
+
+            public override double chuVi()
+            {
+                return (this.chieuDai + this.chieuRong) * 2; 
+            }
+            public override double dienTich()
+            {
+                return this.chieuRong * this.chieuDai;
+            }
+            public override KieuHinh kieuDoiTuong()
+            {
+                return KieuHinh.HinhChuNhat;
+            }
+        }
+
+        class HinhVuong : HinhChuNhat
+        {
+            public HinhVuong() : base()
+            {
+
+            }
+            public HinhVuong(double canh) : base(canh, canh)
+            {
+
+            }
+            public override double chuVi()
+            {
+                return base.chuVi();
+            }
+            public override double dienTich()
+            {
+                return base.dienTich();
+            }
+            public override KieuHinh kieuDoiTuong()
+            {
+                return KieuHinh.HinhVuong;
+            }
+        }
+
+        class TamGiacCan : TamGiac
+        {
+            public TamGiacCan() : base()
+            {
+                
+            }
+            public TamGiacCan(double a, double b, double c) : base(a, b, c)
+            {
+
+            }
+            public override KieuHinh kieuDoiTuong()
+            {
+                return KieuHinh.TamGiacCan;
+            }
