@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace OnThiCuoiKyOOP
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<PhanSo> ds = new List<PhanSo>();
+            ds.Add(new PhanSo(1,2));
+            ds.Add(new PhanSo(3, -4));
+            ds.Add(new PhanSo(7, 12));
+            ds.Add(new PhanSo(4, 16));
+            ds.Add(new PhanSo(-8, 54));
+            PhanSo sum = tinhTongDs(ds);
+            sum.xuat();
+           
+            
+
+            Console.ReadKey();
+
+        }
+        static PhanSo tinhTongDs(List<PhanSo> ds)
+        {
+            PhanSo res = ds[0];
+            for (int i = 1; i < ds.Count; i++)
+            {
+                res /= ds[i];
+            }
+            res.rutgon();
+            return res;
+            
+        }
+        class PhanSo
+        {
+            private int m_tuso;
+            private int m_mauso;
+
+            public int tuso
+            {
+                get { return this.m_tuso; }
+                set { this.m_tuso = value; }
+            }
+
+            public int mauso
+            {
+                get { return this.m_mauso; }
+                set { this.m_mauso = value; }
+            }
+
+            public PhanSo()
+            {
+                this.m_tuso = 0;
+                this.m_mauso = 1;
+            }
+            public PhanSo(int tu, int mau)
+            {
+                this.m_tuso = tu;
+                this.m_mauso = mau;
+            }
+            private int UCLN(int a, int b)
+            {
+                a = Math.Abs(a);
+                b = Math.Abs(b);
+                while (a != b)
+                {
+                    if (a > b)
+                    {
+                        a -= b; // a = a - b
+                    }
+                    else
+                    {
+                        b -= a;
+                    }
+                }
+                return a; // return a
+            }
+            public void rutgon()
+            {
+                if((this.m_mauso < 0 && this.m_tuso < 0) || this.m_mauso < 0)
+                {
+                    this.m_tuso = this.m_tuso * -1;
+                    this.m_mauso = this.m_mauso * -1;
+                }
+
+                int ucln = UCLN(this.m_tuso,this.m_mauso);
+                this.m_tuso = this.m_tuso / ucln;
+                this.m_mauso = this.m_mauso / ucln;
+            }
+            public void xuat()
+            {
+                Console.WriteLine(this.m_tuso + "/" + this.m_mauso);
+               
+            }
+            public static PhanSo operator + (PhanSo x, PhanSo y)
+            {
+                PhanSo z = new PhanSo();
+                z.m_tuso = x.m_tuso * y.m_mauso + y.m_tuso * x.m_mauso;
+                z.m_mauso = x.m_mauso * y.m_mauso;
+                z.rutgon();
+                return z;
+            }
+            public static PhanSo operator - (PhanSo x, PhanSo y)
+            {
+                PhanSo z = new PhanSo();
+                z.m_tuso = x.m_tuso * y.m_mauso - y.m_tuso * x.m_mauso;
+                z.m_mauso = x.m_mauso * y.m_mauso;
+                z.rutgon();
+                return z;
+            }
+            public static PhanSo operator *(PhanSo x, PhanSo y)
+            {
+                PhanSo z = new PhanSo();
+                z.m_tuso = x.m_tuso * y.m_tuso; 
+                z.m_mauso = x.m_mauso * y.m_mauso;
+                z.rutgon();
+                return z;
+            }
+            public static PhanSo operator /(PhanSo x, PhanSo y)
+            {
+                PhanSo z = new PhanSo();
+                z.m_tuso = x.m_tuso * y.m_mauso;
+                z.m_mauso = x.m_mauso * y.m_tuso;
+                z.rutgon();
+                return z;
+            }
+            public static bool operator > (PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a > b ? true : false;
+            }
+            public static bool operator <(PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a < b ? true : false;
+            }
+            public static bool operator >=(PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a >= b ? true : false;
+            }
+            public static bool operator <=(PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a <= b ? true : false;
+            }
+            public static bool operator ==(PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a == b ? true : false;
+            }
+            public static bool operator !=(PhanSo x, PhanSo y)
+            {
+                double a = x.m_tuso / x.m_mauso;
+                double b = y.m_tuso / y.m_mauso;
+
+                return a != b ? true : false;
+            }
+        }
+    }
+}
